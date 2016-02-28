@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ ! -d "mp3" ]; then
+  # Control will enter here if $DIRECTORY doesn't exist.
+  mkdir mp3
+fi
+  newfile=`youtube-dl -o %\(title\)s.%\(ext\)s $1 | grep '^\[download\]' | cut -d ' ' -f 3-`
+#echo $newfile	
+
+ffmpeg -loglevel panic -i "$newfile" -b 192k mp3/"$newfile".mp3
+	rm "$newfile"
+
